@@ -1,16 +1,36 @@
-name: checkmycode
+name: Run-checkmycode
 
-on: [push, pull_request]
+on: 
+  workflow_call:
+    secrets:
+      ORG_NPM_INSTALL:
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14.x
+        - name: 'Checkout GitHub repo'
+          uses: actions/checkout@v3 
+          with:
+            persist-credentials: false
+          
+        - name: Setup Node
+          uses: actions/setup-node@v3
+          with:
+            node-version: '14.x'
+          
+        - name: Setup latest NPM
+          run: npm install -g npm@latest
+        
+        - name: Set permissions
+          run: |
+            git config --global url."https://${{ secrets.ORG_NPM_INSTALL }}@github.com/".insteadOf ssh://git@github.com/
+        
+        - name: Get dependencies
+          run: npm ci
 
-    - run: npm install
-    - run: bash checkmycode.sh
+        - name: 'Check my code'
+          run: bash checkmycode.sh
+
