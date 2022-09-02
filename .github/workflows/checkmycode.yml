@@ -1,36 +1,10 @@
-name: Run-checkmycode
+name: Check my code
 
-on: 
-  workflow_call:
-    secrets:
-      ORG_NPM_INSTALL:
-        required: true
+on: [push,pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-        - name: 'Checkout GitHub repo'
-          uses: actions/checkout@v3 
-          with:
-            persist-credentials: false
-          
-        - name: Setup Node
-          uses: actions/setup-node@v3
-          with:
-            node-version: '14.x'
-          
-        - name: Setup latest NPM
-          run: npm install -g npm@latest
-        
-        - name: Set permissions
-          run: |
-            git config --global url."https://${{ secrets.ORG_NPM_INSTALL }}@github.com/".insteadOf ssh://git@github.com/
-        
-        - name: Get dependencies
-          run: npm ci
-
-        - name: 'Check my code'
-          run: bash checkmycode.sh
+  call-checkmycode:
+    uses: ncmsdev/numo-builder/.github/workflows/checkmycode.yml@main
+    secrets:
+      ORG_NPM_INSTALL: ${{ secrets.ORG_NPM_INSTALL }}
 
