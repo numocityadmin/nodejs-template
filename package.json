@@ -4,16 +4,11 @@
   "description": "---fill-this---",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha --exit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "---fill url ending with .git without username---"
+    "test": "env AZURE_NODE_ENV=development env NODE_ENV=development npx mocha --exit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/namp_eng/---fill-repo-name---#readme",
   "nyc": {
     "all": true,
     "exclude": [

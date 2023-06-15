@@ -1,0 +1,20 @@
+name: To-build-and-push
+on:
+  push:
+     tags:
+     - '[A-Za-z]+.[0-9]+.[0-9]+.[0-9]'
+     
+jobs:
+    
+  call-build:
+    uses: ncmsdev/numo-builder/.github/workflows/build.yml@main
+    with: 
+        tag : ${{ github.ref }}
+    secrets:
+        ORG_NPM_INSTALL: ${{ secrets.ORG_NPM_INSTALL }}
+    
+        ORG_AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      
+        ORG_REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+         
+        ORG_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
