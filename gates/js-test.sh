@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-npm test
 
 npx nyc --reporter=html --reporter=text npm run test
 npx nyc check-coverage --functions 100
